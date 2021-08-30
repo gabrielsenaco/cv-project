@@ -1,10 +1,10 @@
 import React from 'react'
 import ParentSection from './components/ParentSection'
-import GeneralInformation from './components/GeneralInformation'
+import GeneralInformation from './sections/GeneralInformation'
 import {
   createValidatorItemObject,
   createSectionObjectBySectionModel
-} from './components/ObjectBuilder'
+} from './objects/ObjectBuilder'
 
 export default class App extends React.Component {
   constructor (props) {
