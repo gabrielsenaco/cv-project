@@ -55,8 +55,14 @@ export default class App extends React.Component {
           editor = !editor
         }
 
+        const items = section.items.map((item) => {
+          item.previewValue = ''
+          return item
+        })
+
         return {
           ...section,
+          items,
           editor
         }
       })
