@@ -82,12 +82,40 @@ const createSectionObject = (title, items, buttons, editor, submitHandler, first
   }
 }
 
-const createParentSectionObject = (title, sections, validators, id = uniqid()) => {
+const createParentSectionObject = (title, sections, validators, sectionModel, id = uniqid()) => {
   return {
     title,
     sections,
+    sectionModel,
     validators,
     id
+  }
+}
+
+const createSectionObjectBySectionModel = (sectionModel, id = uniqid()) => {
+  let section = Object.assign({}, sectionModel)
+
+  const items = section.items.map((item) => {
+    const id = uniqid()
+    return {
+      ...item,
+      id
+    }
+  })
+
+  const buttons = section.buttons.map((button) => {
+    const id = uniqid()
+    return {
+      ...button,
+      id
+    }
+  })
+
+  return {
+    ...section,
+    id,
+    items,
+    buttons
   }
 }
 
@@ -113,5 +141,6 @@ export {
   createSectionObject,
   createFailObject,
   createValidatorObject,
-  createValidatorItemObject
+  createValidatorItemObject,
+  createSectionObjectBySectionModel
 }
