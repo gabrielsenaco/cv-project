@@ -13,7 +13,7 @@ import {
   createCloseEditorButton
 } from './../objects/SectionButtonObjects'
 
-import { nameValidator } from './../objects/ValidatorObjects'
+import { nameValidator, emailValidator, phoneNumberValidator } from './../objects/ValidatorObjects'
 
 export default class GeneralInformation {
   constructor (changeInputHandler, toggleEditorHandler, submitHandler) {
@@ -68,6 +68,6 @@ export default class GeneralInformation {
   }
 
   getValidators () {
-    return [nameValidator]
+    return [nameValidator, emailValidator, phoneNumberValidator]
   }
 }
