@@ -26,7 +26,7 @@ export default class GeneralInformation {
     this.buttons2 = this.getButtonsArray(this.sectionID2, this.parentSectionID)
     this.section2 = createSectionObject(null, this.items2, this.buttons2, true, submitHandler, true, this.parentSectionID, this.sectionID2)
     
-    this.parentSection = createParentSectionObject('General Information', [this.section, this.section2], this.getValidators(), this.parentSectionID)
+    this.parentSection = createParentSectionObject('General Information', [this.section, this.section2], this.getValidators(), this.section2, this.parentSectionID)
   }
 
   getData() {
