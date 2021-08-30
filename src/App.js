@@ -134,6 +134,20 @@ export default class App extends React.Component {
     }
   }
 
+  expandParentSectionHandler = (_, __, parentSectionID, event) => {
+    this.updateData(parentSectionID, parentSection => {
+      const { sectionModel } = parentSection
+      const newSection = createSectionObjectBySectionModel(sectionModel)
+      return parentSection.sections.concat(newSection)
+    })
+  }
+
+  deleteSectionHandler = (_, sectionID, parentSectionID, event) => {
+    this.updateData(parentSectionID, parentSection => {
+      return parentSection.sections.filter(section => section.id !== sectionID)
+    })
+  }
+
   async updateData (parentSectionID, callback) {
     await this.setState(prevState => {
       let { parentSection, parentSectionKey } = this.getParentSectionObject(
