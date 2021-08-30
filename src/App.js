@@ -1,16 +1,9 @@
 import React from 'react'
-import uniqid from 'uniqid'
-import { IconPlus } from '@tabler/icons'
-import Section from './components/Section'
 import ParentSection from './components/ParentSection'
 import GeneralInformation from './components/GeneralInformation'
 import {
-  createItemObject,
-  createButtonObject,
-  createParentSectionObject,
-  createSectionObject,
-  createFailObject,
-  createValidatorItemObject
+  createValidatorItemObject,
+  createSectionObjectBySectionModel
 } from './components/ObjectBuilder'
 
 export default class App extends React.Component {
