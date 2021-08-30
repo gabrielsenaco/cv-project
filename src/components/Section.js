@@ -10,7 +10,7 @@ export default class Section extends React.Component {
       <InputLabel
         key={item.id}
         title={item.title}
-        failded={failed}
+        failed={failed}
         value={item.previewValue}
         type={item.type}
         placeholder={item.placeholder}

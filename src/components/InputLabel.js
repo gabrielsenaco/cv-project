@@ -5,12 +5,13 @@ export default class InputLabel extends React.Component {
     const { value, type, placeholder, failed, id, icon, changeHandler } = this.props
     let title = this.props.title || ''
     const inputID = (title || '').toLowerCase().concat('-', id)
+
     return (
       <div key={id}>
         <label htmlFor={inputID}>{title}</label>
         {icon && icon({})}
         <input
-          failed={failed}
+          failed={failed !== null && failed.toString()}
           id={inputID}
           name={title.toLowerCase()}
           placeholder={placeholder}
