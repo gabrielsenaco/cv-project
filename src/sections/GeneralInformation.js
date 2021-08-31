@@ -23,6 +23,7 @@ export default class GeneralInformation {
     this.parentSectionID = uniqid()
     this.items = this.getItemsArray(this.sectionID, this.parentSectionID)
     this.buttons = this.getButtonsArray(this.sectionID, this.parentSectionID)
+    
     this.section = createSectionObject(
       null,
       this.items,
@@ -38,7 +39,8 @@ export default class GeneralInformation {
       'General Information',
       [this.section],
       this.getValidators(),
-      this.section,
+      null,
+      [],
       this.parentSectionID
     )
   }
