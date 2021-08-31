@@ -1,6 +1,8 @@
 import React from 'react'
 import ParentSection from './components/ParentSection'
 import GeneralInformation from './sections/GeneralInformation'
+import EducationalExperience from './sections/EducationalExperience'
+import PracticalExperience from './sections/PracticalExperience'
 import {
   createValidatorItemObject,
   createSectionObjectBySectionModel
@@ -15,6 +17,20 @@ export default class App extends React.Component {
         this.changeInputHandler,
         this.toggleEditorHandler,
         this.submitHandler
+      ).getData(),
+      educationalExperience: new EducationalExperience(
+        this.changeInputHandler,
+        this.toggleEditorHandler,
+        this.submitHandler,
+        this.expandParentSectionHandler,
+        this.deleteSectionHandler
+      ).getData(),
+      practicalExperience: new PracticalExperience(
+        this.changeInputHandler,
+        this.toggleEditorHandler,
+        this.submitHandler,
+        this.expandParentSectionHandler,
+        this.deleteSectionHandler
       ).getData()
     }
   }
