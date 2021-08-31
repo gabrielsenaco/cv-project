@@ -1,4 +1,14 @@
-import { IconSignature, IconAt, IconPhone, IconSchool, IconCertificate, IconCalendar, IconBuildingSkyscraper, IconBriefcase, IconSubtask} from '@tabler/icons'
+import {
+  IconSignature,
+  IconAt,
+  IconPhone,
+  IconSchool,
+  IconCertificate,
+  IconCalendar,
+  IconBuildingSkyscraper,
+  IconBriefcase,
+  IconSubtask
+} from '@tabler/icons'
 import { createItemObject } from './ObjectBuilder'
 
 const createItemName = (sectionID, parentSectionID, changeInputHandler) => {
@@ -41,7 +51,11 @@ const createItemPhoneNumber = (
   )
 }
 
-const createItemSchoolName = (sectionID, parentSectionID, changeInputHandler) => {
+const createItemSchoolName = (
+  sectionID,
+  parentSectionID,
+  changeInputHandler
+) => {
   return createItemObject(
     'School name',
     'text',
@@ -53,7 +67,11 @@ const createItemSchoolName = (sectionID, parentSectionID, changeInputHandler) =>
   )
 }
 
-const createItemTitleOfStudy = (sectionID, parentSectionID, changeInputHandler) => {
+const createItemTitleOfStudy = (
+  sectionID,
+  parentSectionID,
+  changeInputHandler
+) => {
   return createItemObject(
     'Title of study',
     'text',
@@ -65,7 +83,11 @@ const createItemTitleOfStudy = (sectionID, parentSectionID, changeInputHandler) 
   )
 }
 
-const createItemDateOfStudy= (sectionID, parentSectionID, changeInputHandler) => {
+const createItemDateOfStudy = (
+  sectionID,
+  parentSectionID,
+  changeInputHandler
+) => {
   return createItemObject(
     'Date of study',
     'date',
@@ -77,7 +99,11 @@ const createItemDateOfStudy= (sectionID, parentSectionID, changeInputHandler) =>
   )
 }
 
-const createItemCompanyName = (sectionID, parentSectionID, changeInputHandler) => {
+const createItemCompanyName = (
+  sectionID,
+  parentSectionID,
+  changeInputHandler
+) => {
   return createItemObject(
     'Company name',
     'text',
@@ -89,7 +115,11 @@ const createItemCompanyName = (sectionID, parentSectionID, changeInputHandler) =
   )
 }
 
-const createItemPositionTitle = (sectionID, parentSectionID, changeInputHandler) => {
+const createItemPositionTitle = (
+  sectionID,
+  parentSectionID,
+  changeInputHandler
+) => {
   return createItemObject(
     'Position title',
     'text',
@@ -101,7 +131,11 @@ const createItemPositionTitle = (sectionID, parentSectionID, changeInputHandler)
   )
 }
 
-const createItemMainTasks = (sectionID, parentSectionID, changeInputHandler) => {
+const createItemMainTasks = (
+  sectionID,
+  parentSectionID,
+  changeInputHandler
+) => {
   return createItemObject(
     'Main tasks',
     'textarea',
@@ -113,7 +147,11 @@ const createItemMainTasks = (sectionID, parentSectionID, changeInputHandler) => 
   )
 }
 
-const createItemDateStartedJob = (sectionID, parentSectionID, changeInputHandler) => {
+const createItemDateStartedJob = (
+  sectionID,
+  parentSectionID,
+  changeInputHandler
+) => {
   return createItemObject(
     'Date you started',
     'date',
@@ -125,7 +163,11 @@ const createItemDateStartedJob = (sectionID, parentSectionID, changeInputHandler
   )
 }
 
-const createItemDateStoppedJob = (sectionID, parentSectionID, changeInputHandler) => {
+const createItemDateStoppedJob = (
+  sectionID,
+  parentSectionID,
+  changeInputHandler
+) => {
   return createItemObject(
     'Date you stopped',
     'date',
@@ -137,4 +179,16 @@ const createItemDateStoppedJob = (sectionID, parentSectionID, changeInputHandler
   )
 }
 
-export { createItemPhoneNumber, createItemEmail, createItemName, createItemDateOfStudy, createItemTitleOfStudy, createItemSchoolName, createItemDateStoppedJob, createItemDateStartedJob, createItemMainTasks, createItemPositionTitle, createItemCompanyName }
+export {
+  createItemPhoneNumber,
+  createItemEmail,
+  createItemName,
+  createItemDateOfStudy,
+  createItemTitleOfStudy,
+  createItemSchoolName,
+  createItemDateStoppedJob,
+  createItemDateStartedJob,
+  createItemMainTasks,
+  createItemPositionTitle,
+  createItemCompanyName
+}

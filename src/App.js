@@ -71,7 +71,7 @@ export default class App extends React.Component {
           editor = !editor
         }
 
-        const items = section.items.map((item) => {
+        const items = section.items.map(item => {
           item.previewValue = item.value
           return item
         })
@@ -140,15 +140,17 @@ export default class App extends React.Component {
               pass = false
             }
 
-            return {id: item.id, pass}
+            return { id: item.id, pass }
           })
 
           items = items.map(item => {
-            let pass = passList.some((itemPass) => itemPass.pass && itemPass.id === item.id)
+            let pass = passList.some(
+              itemPass => itemPass.pass && itemPass.id === item.id
+            )
             let value = item.value
             let failed = item.failed
 
-            if(pass && !someFails) {
+            if (pass && !someFails) {
               value = item.previewValue
             } else {
               failed = true
@@ -178,7 +180,10 @@ export default class App extends React.Component {
   expandParentSectionHandler = (_, __, parentSectionID, event) => {
     this.updateData(parentSectionID, parentSection => {
       const { sectionModel } = parentSection
-      const newSection = createSectionObjectBySectionModel(sectionModel, parentSectionID)
+      const newSection = createSectionObjectBySectionModel(
+        sectionModel,
+        parentSectionID
+      )
       return parentSection.sections.concat(newSection)
     })
   }
@@ -215,7 +220,13 @@ export default class App extends React.Component {
     const parentSections = Object.values(this.state).map(parentSection => {
       let { id, sections, title, buttons } = parentSection
       return (
-        <ParentSection key={id} sections={sections} buttons={buttons} id={id} title={title} />
+        <ParentSection
+          key={id}
+          sections={sections}
+          buttons={buttons}
+          id={id}
+          title={title}
+        />
       )
     })
 

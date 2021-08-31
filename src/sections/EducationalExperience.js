@@ -1,8 +1,14 @@
 import uniqid from 'uniqid'
-import { createParentSectionObject, createSectionObject } from './../objects/ObjectBuilder'
+import {
+  createParentSectionObject,
+  createSectionObject
+} from './../objects/ObjectBuilder'
 
 import {
-  createItemDateOfStudy, createItemTitleOfStudy, createItemSchoolName } from './../objects/SectionItemObjects'
+  createItemDateOfStudy,
+  createItemTitleOfStudy,
+  createItemSchoolName
+} from './../objects/SectionItemObjects'
 
 import {
   createSaveButton,
@@ -12,15 +18,31 @@ import {
   createExpandParentSectionButton
 } from './../objects/SectionButtonObjects'
 
-import { titleOfStudyValidator, schoolNameValidator, dateOfStudyValidator} from './../objects/ValidatorObjects'
+import {
+  titleOfStudyValidator,
+  schoolNameValidator,
+  dateOfStudyValidator
+} from './../objects/ValidatorObjects'
 
 export default class EducationalExperience {
-  constructor (changeInputHandler, toggleEditorHandler, submitHandler, expandParentSectionHandler, deleteSectionHandler) {
+  constructor (
+    changeInputHandler,
+    toggleEditorHandler,
+    submitHandler,
+    expandParentSectionHandler,
+    deleteSectionHandler
+  ) {
     this.changeInputHandler = changeInputHandler
     this.toggleEditorHandler = toggleEditorHandler
     this.deleteSectionHandler = deleteSectionHandler
     this.parentSectionID = uniqid()
-    this.buttons = [createExpandParentSectionButton(null, this.parentSectionID, expandParentSectionHandler)]
+    this.buttons = [
+      createExpandParentSectionButton(
+        null,
+        this.parentSectionID,
+        expandParentSectionHandler
+      )
+    ]
     this.parentSection = createParentSectionObject(
       'Educational Experience',
       [],
@@ -31,7 +53,7 @@ export default class EducationalExperience {
     )
   }
 
-  getSectionModel(submitHandler) {
+  getSectionModel (submitHandler) {
     let sectionID = uniqid()
     let items = this.getItemsArray(sectionID, this.parentSectionID)
     let buttons = this.getButtonsArray(sectionID, this.parentSectionID)
@@ -55,11 +77,15 @@ export default class EducationalExperience {
   getItemsArray (sectionID, parentSectionID) {
     return [
       createItemSchoolName(sectionID, parentSectionID, this.changeInputHandler),
-      createItemTitleOfStudy(sectionID, parentSectionID, this.changeInputHandler),
+      createItemTitleOfStudy(
+        sectionID,
+        parentSectionID,
+        this.changeInputHandler
+      ),
       createItemDateOfStudy(sectionID, parentSectionID, this.changeInputHandler)
     ]
   }
-  
+
   getButtonsArray (sectionID, parentSectionID) {
     return [
       createSaveButton(sectionID, parentSectionID),
@@ -69,7 +95,11 @@ export default class EducationalExperience {
         parentSectionID,
         this.toggleEditorHandler
       ),
-      createDeleteSectionButton(sectionID, parentSectionID, this.deleteSectionHandler)
+      createDeleteSectionButton(
+        sectionID,
+        parentSectionID,
+        this.deleteSectionHandler
+      )
     ]
   }
 

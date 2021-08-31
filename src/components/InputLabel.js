@@ -2,14 +2,23 @@ import React from 'react'
 
 export default class InputLabel extends React.Component {
   render () {
-    const { value, type, placeholder, failed, id, icon, changeHandler } = this.props
+    const {
+      value,
+      type,
+      placeholder,
+      failed,
+      id,
+      icon,
+      changeHandler
+    } = this.props
     let title = this.props.title || ''
     const inputID = (title || '').toLowerCase().concat('-', id)
 
     let input
 
-    if(type === 'textarea') {
-      input = (<textarea
+    if (type === 'textarea') {
+      input = (
+        <textarea
           failed={failed !== null && failed.toString()}
           id={inputID}
           name={title.toLowerCase()}
@@ -17,9 +26,11 @@ export default class InputLabel extends React.Component {
           type={type}
           defaultValue={value}
           onChange={changeHandler}
-        ></textarea>)
+        ></textarea>
+      )
     } else {
-      input = (<input
+      input = (
+        <input
           failed={failed !== null && failed.toString()}
           id={inputID}
           name={title.toLowerCase()}
@@ -27,9 +38,10 @@ export default class InputLabel extends React.Component {
           type={type}
           defaultValue={value}
           onChange={changeHandler}
-        />)
+        />
+      )
     }
-  
+
     return (
       <div key={id}>
         <label htmlFor={inputID}>{title}</label>

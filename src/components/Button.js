@@ -5,7 +5,12 @@ export default class Button extends React.Component {
     const { text, icon, color, bgColor, type, id, clickHandler } = this.props
     const className = 'bg-'.concat(bgColor || 'default', ' ', color || '')
     return (
-      <button className={className} key={id} type={type || 'button'} onClick={clickHandler}>
+      <button
+        className={className}
+        key={id}
+        type={type || 'button'}
+        onClick={clickHandler}
+      >
         {icon && icon({})}
         {text}
       </button>

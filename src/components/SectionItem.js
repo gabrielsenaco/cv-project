@@ -5,8 +5,8 @@ export default class SectionItem extends React.Component {
     const { title, id } = this.props
     let value = this.props.value
 
-    if(!value || value.length === 0 ) {
-        value = 'Not set yet'
+    if (!value || value.length === 0) {
+      value = 'Not set yet'
     }
 
     return (
@@ -17,4 +17,3 @@ export default class SectionItem extends React.Component {
     )
   }
 }
-

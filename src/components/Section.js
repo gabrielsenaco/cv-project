@@ -22,7 +22,14 @@ export default class Section extends React.Component {
   }
 
   getItemViewComponent (item) {
-    return <SectionItem title={item.title} value={item.value} id={item.id} key={item.id} />
+    return (
+      <SectionItem
+        title={item.title}
+        value={item.value}
+        id={item.id}
+        key={item.id}
+      />
+    )
   }
 
   getButtonComponent (button) {
@@ -72,7 +79,7 @@ export default class Section extends React.Component {
     if (editor) {
       return (
         <section key={id}>
-          { title && <h4>{title}</h4>}
+          {title && <h4>{title}</h4>}
           <form onSubmit={submitHandler} noValidate>
             {items}
             {fails}
@@ -83,7 +90,7 @@ export default class Section extends React.Component {
     }
     return (
       <section key={id}>
-        { title && <h4>{title}</h4>}
+        {title && <h4>{title}</h4>}
         {items}
         {buttons}
       </section>

@@ -21,7 +21,7 @@ export default class ParentSection extends React.Component {
   render () {
     let sections = this.props.sections || []
     let buttons = this.props.buttons || []
-    
+
     sections = sections.map(section => {
       return this.getSectionComponent(section)
     })

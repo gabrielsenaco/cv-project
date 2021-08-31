@@ -1,7 +1,16 @@
 import uniqid from 'uniqid'
-import { createParentSectionObject, createSectionObject } from './../objects/ObjectBuilder'
+import {
+  createParentSectionObject,
+  createSectionObject
+} from './../objects/ObjectBuilder'
 
-import {createItemDateStoppedJob, createItemDateStartedJob, createItemMainTasks, createItemPositionTitle, createItemCompanyName } from './../objects/SectionItemObjects'
+import {
+  createItemDateStoppedJob,
+  createItemDateStartedJob,
+  createItemMainTasks,
+  createItemPositionTitle,
+  createItemCompanyName
+} from './../objects/SectionItemObjects'
 
 import {
   createSaveButton,
@@ -11,15 +20,33 @@ import {
   createExpandParentSectionButton
 } from './../objects/SectionButtonObjects'
 
-import { companyNameValidator, dateStoppedJobValidator, dateStartedJobValidator, mainTasksValidator, positionTitleValidator} from './../objects/ValidatorObjects'
+import {
+  companyNameValidator,
+  dateStoppedJobValidator,
+  dateStartedJobValidator,
+  mainTasksValidator,
+  positionTitleValidator
+} from './../objects/ValidatorObjects'
 
 export default class PracticalExperience {
-  constructor (changeInputHandler, toggleEditorHandler, submitHandler, expandParentSectionHandler, deleteSectionHandler) {
+  constructor (
+    changeInputHandler,
+    toggleEditorHandler,
+    submitHandler,
+    expandParentSectionHandler,
+    deleteSectionHandler
+  ) {
     this.changeInputHandler = changeInputHandler
     this.toggleEditorHandler = toggleEditorHandler
     this.deleteSectionHandler = deleteSectionHandler
     this.parentSectionID = uniqid()
-    this.buttons = [createExpandParentSectionButton(null, this.parentSectionID, expandParentSectionHandler)]
+    this.buttons = [
+      createExpandParentSectionButton(
+        null,
+        this.parentSectionID,
+        expandParentSectionHandler
+      )
+    ]
     this.parentSection = createParentSectionObject(
       'Practical Experience',
       [],
@@ -30,7 +57,7 @@ export default class PracticalExperience {
     )
   }
 
-  getSectionModel(submitHandler) {
+  getSectionModel (submitHandler) {
     let sectionID = uniqid()
     let items = this.getItemsArray(sectionID, this.parentSectionID)
     let buttons = this.getButtonsArray(sectionID, this.parentSectionID)
@@ -53,14 +80,30 @@ export default class PracticalExperience {
 
   getItemsArray (sectionID, parentSectionID) {
     return [
-      createItemCompanyName(sectionID, parentSectionID, this.changeInputHandler),
-      createItemPositionTitle(sectionID, parentSectionID, this.changeInputHandler),
+      createItemCompanyName(
+        sectionID,
+        parentSectionID,
+        this.changeInputHandler
+      ),
+      createItemPositionTitle(
+        sectionID,
+        parentSectionID,
+        this.changeInputHandler
+      ),
       createItemMainTasks(sectionID, parentSectionID, this.changeInputHandler),
-      createItemDateStartedJob(sectionID, parentSectionID, this.changeInputHandler),
-      createItemDateStoppedJob(sectionID, parentSectionID, this.changeInputHandler)
+      createItemDateStartedJob(
+        sectionID,
+        parentSectionID,
+        this.changeInputHandler
+      ),
+      createItemDateStoppedJob(
+        sectionID,
+        parentSectionID,
+        this.changeInputHandler
+      )
     ]
   }
-  
+
   getButtonsArray (sectionID, parentSectionID) {
     return [
       createSaveButton(sectionID, parentSectionID),
@@ -70,11 +113,21 @@ export default class PracticalExperience {
         parentSectionID,
         this.toggleEditorHandler
       ),
-      createDeleteSectionButton(sectionID, parentSectionID, this.deleteSectionHandler)
+      createDeleteSectionButton(
+        sectionID,
+        parentSectionID,
+        this.deleteSectionHandler
+      )
     ]
   }
 
   getValidators () {
-    return [companyNameValidator, dateStoppedJobValidator, dateStartedJobValidator, mainTasksValidator, positionTitleValidator]
+    return [
+      companyNameValidator,
+      dateStoppedJobValidator,
+      dateStartedJobValidator,
+      mainTasksValidator,
+      positionTitleValidator
+    ]
   }
 }

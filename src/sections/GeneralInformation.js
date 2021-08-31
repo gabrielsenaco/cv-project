@@ -1,5 +1,8 @@
 import uniqid from 'uniqid'
-import { createParentSectionObject, createSectionObject } from './../objects/ObjectBuilder'
+import {
+  createParentSectionObject,
+  createSectionObject
+} from './../objects/ObjectBuilder'
 
 import {
   createItemPhoneNumber,
@@ -13,7 +16,11 @@ import {
   createCloseEditorButton
 } from './../objects/SectionButtonObjects'
 
-import { nameValidator, emailValidator, phoneNumberValidator } from './../objects/ValidatorObjects'
+import {
+  nameValidator,
+  emailValidator,
+  phoneNumberValidator
+} from './../objects/ValidatorObjects'
 
 export default class GeneralInformation {
   constructor (changeInputHandler, toggleEditorHandler, submitHandler) {
@@ -23,7 +30,7 @@ export default class GeneralInformation {
     this.parentSectionID = uniqid()
     this.items = this.getItemsArray(this.sectionID, this.parentSectionID)
     this.buttons = this.getButtonsArray(this.sectionID, this.parentSectionID)
-    
+
     this.section = createSectionObject(
       null,
       this.items,
