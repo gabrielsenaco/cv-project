@@ -83,6 +83,7 @@ export default class Section extends React.Component {
     }
     return (
       <section key={id}>
+        { title && <h4>{title}</h4>}
         {items}
         {buttons}
       </section>
