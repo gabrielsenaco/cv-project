@@ -162,7 +162,7 @@ export default class App extends React.Component {
   expandParentSectionHandler = (_, __, parentSectionID, event) => {
     this.updateData(parentSectionID, parentSection => {
       const { sectionModel } = parentSection
-      const newSection = createSectionObjectBySectionModel(sectionModel)
+      const newSection = createSectionObjectBySectionModel(sectionModel, parentSectionID)
       return parentSection.sections.concat(newSection)
     })
   }

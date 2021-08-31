@@ -10,9 +10,10 @@ const createItemObject = (
   parentSectionID,
   id = uniqid()
 ) => {
+  const defaultChangeHandler = changeHandler
 
   if(changeHandler) {
-    changeHandler = changeHandler.bind(null, id, sectionID, parentSectionID)
+    changeHandler = bindEventHandler(changeHandler, id, sectionID, parentSectionID)
   }
 
   return {
@@ -24,7 +25,8 @@ const createItemObject = (
     previewValue: '',
     value: '',
     failed: false,
-    id
+    id,
+    defaultChangeHandler
   }
 }
 
@@ -41,9 +43,9 @@ const createButtonObject = (
   parentSectionID,
   id = uniqid()
 ) => {
-
+  const defaultClickHandler = clickHandler
   if(clickHandler) {
-    clickHandler = clickHandler.bind(null, id, sectionID, parentSectionID)
+    clickHandler = bindEventHandler(clickHandler, null, sectionID, parentSectionID)
   }
 
   return {
@@ -55,6 +57,7 @@ const createButtonObject = (
     onlyView,
     onlyEditor,
     clickHandler,
+    defaultClickHandler,
     id
   }
 }
@@ -66,10 +69,10 @@ const createFailObject = (id, fail) => {
   }
 }
 
-//createSectionObject(items, section.buttons, !section.editor, section.submitHandler, parentSection.id, section.id)
 const createSectionObject = (title, items, buttons, editor, submitHandler, firstBind, parentSectionID, id = uniqid()) => {
+  const defaultSubmitHandler = submitHandler
   if(submitHandler && firstBind) {
-    submitHandler = submitHandler.bind(null, null, id, parentSectionID)
+    submitHandler = bindEventHandler(submitHandler, null, id, parentSectionID)
   }
   return {
     title,
@@ -78,44 +81,60 @@ const createSectionObject = (title, items, buttons, editor, submitHandler, first
     editor,
     fails: [],
     id,
-    submitHandler
+    submitHandler,
+    defaultSubmitHandler
   }
 }
 
-const createParentSectionObject = (title, sections, validators, sectionModel, id = uniqid()) => {
+const createParentSectionObject = (title, sections, validators, sectionModel, buttons, id = uniqid()) => {
   return {
     title,
     sections,
     sectionModel,
     validators,
+    buttons,
     id
   }
 }
 
-const createSectionObjectBySectionModel = (sectionModel, id = uniqid()) => {
+function bindEventHandler(handler, id, sectionID, parentSectionID) {
+  if(handler) {
+    return handler.bind(null, id, sectionID, parentSectionID)
+  }
+}
+
+const createSectionObjectBySectionModel = (sectionModel, parentSectionID, sectionID = uniqid()) => {
   let section = Object.assign({}, sectionModel)
 
   const items = section.items.map((item) => {
     const id = uniqid()
+    let changeHandler = bindEventHandler(item.defaultChangeHandler, id, sectionID, parentSectionID)
     return {
       ...item,
-      id
+      id,
+      changeHandler
     }
   })
 
   const buttons = section.buttons.map((button) => {
     const id = uniqid()
+    let clickHandler = bindEventHandler(button.defaultClickHandler, null, sectionID, parentSectionID)
+
     return {
       ...button,
+      clickHandler,
       id
     }
   })
 
+  let submitHandler = bindEventHandler(section.defaultSubmitHandler, null, sectionID, parentSectionID)
+
   return {
     ...section,
-    id,
+    id: sectionID,
     items,
-    buttons
+    buttons,
+    submitHandler
   }
 }
 
