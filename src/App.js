@@ -56,7 +56,7 @@ export default class App extends React.Component {
         }
 
         const items = section.items.map((item) => {
-          item.previewValue = ''
+          item.previewValue = item.value
           return item
         })
 
