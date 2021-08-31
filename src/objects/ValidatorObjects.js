@@ -56,6 +56,105 @@ const phoneNumberValidator = (() => {
   })
 })()
 
-// todo adicionar os validadores
 
-export { nameValidator, emailValidator, phoneNumberValidator}
+const schoolNameValidator = (() => {
+  return createValidatorObject('school name', 'text', value => {
+    const empty = getEmptyValueValidatorText(value, 'School name')
+    if(empty) {
+      return createValidatorItemObject(false, empty)
+    }
+
+    return createValidatorItemObject(true)
+  })
+})()
+
+const titleOfStudyValidator = (() => {
+  return createValidatorObject('title of study', 'text', value => {
+    const empty = getEmptyValueValidatorText(value, 'Title of study')
+    if(empty) {
+      return createValidatorItemObject(false, empty)
+    }
+
+    return createValidatorItemObject(true)
+  })
+})()
+
+const dateOfStudyValidator = (() => {
+  return createValidatorObject('date of study', 'date', value => {
+    const empty = getEmptyValueValidatorText(value, 'Date of study')
+    if(empty) {
+      return createValidatorItemObject(false, empty)
+    }
+
+    if(!value.match(/\d{4}-\d{2}-\w{2}/)) {
+      return createValidatorItemObject(false, 'Date of study: Insert valid date. Pattern: yyyy-mm-dd')
+    }
+
+    return createValidatorItemObject(true)
+  })
+})()
+
+const companyNameValidator = (() => {
+  return createValidatorObject('company name', 'text', value => {
+    const empty = getEmptyValueValidatorText(value, 'Company name')
+    if(empty) {
+      return createValidatorItemObject(false, empty)
+    }
+
+    return createValidatorItemObject(true)
+  })
+})()
+
+const positionTitleValidator = (() => {
+  return createValidatorObject('position title', 'text', value => {
+    const empty = getEmptyValueValidatorText(value, 'Position title')
+    if(empty) {
+      return createValidatorItemObject(false, empty)
+    }
+
+    return createValidatorItemObject(true)
+  })
+})()
+
+const mainTasksValidator = (() => {
+  return createValidatorObject('Main tasks', 'textarea', value => {
+    const empty = getEmptyValueValidatorText(value, 'Main tasks')
+    if(empty) {
+      return createValidatorItemObject(false, empty)
+    }
+
+    return createValidatorItemObject(true)
+  })
+})()
+
+const dateStartedJobValidator = (() => {
+  return createValidatorObject('date you started', 'date', value => {
+    const empty = getEmptyValueValidatorText(value, 'Date you started')
+    if(empty) {
+      return createValidatorItemObject(false, empty)
+    }
+
+    if(!value.match(/\d{4}-\d{2}-\w{2}/)) {
+      return createValidatorItemObject(false, 'Date you started: Insert valid date. Pattern: yyyy-mm-dd')
+    }
+
+    return createValidatorItemObject(true)
+  })
+})()
+
+const dateStoppedJobValidator = (() => {
+  return createValidatorObject('date you stopped', 'date', value => {
+    const empty = getEmptyValueValidatorText(value, 'Date you stopped')
+    if(empty) {
+      return createValidatorItemObject(false, empty)
+    }
+
+    if(!value.match(/\d{4}-\d{2}-\w{2}/)) {
+      return createValidatorItemObject(false, 'Date you stopped: Insert valid date. Pattern: yyyy-mm-dd')
+    }
+
+    return createValidatorItemObject(true)
+  })
+})()
+
+export { nameValidator, emailValidator, phoneNumberValidator, titleOfStudyValidator, schoolNameValidator, dateOfStudyValidator, companyNameValidator, dateStoppedJobValidator, dateStartedJobValidator, mainTasksValidator, positionTitleValidator}
