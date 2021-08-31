@@ -103,10 +103,13 @@ export default class App extends React.Component {
     await this.updateData(parentSectionID, parentSection => {
       return parentSection.sections.map(section => {
         let items = section.items
+        let fails = section.fails
         if (section.id === sectionID) {
-          section.fails = []
+          fails = []
 
-          items = items.map(item => {
+          let passList = items.map(item => {
+            let pass = true
+
             let validator = this.isValidItem(
               item.id,
               item.previewValue,
@@ -115,22 +118,38 @@ export default class App extends React.Component {
               parentSection
             )
 
-            item.failed = !validator.valid
-
             if (!validator.valid) {
-              section.fails.push(validator)
+              fails.push(validator)
               someFails = true
-            } else if (!someFails) {
-              item.value = item.previewValue
+              pass = false
             }
 
-            return item
+            return {id: item.id, pass}
+          })
+
+          items = items.map(item => {
+            let pass = passList.some((itemPass) => itemPass.pass && itemPass.id === item.id)
+            let value = item.value
+            let failed = item.failed
+
+            if(pass && !someFails) {
+              value = item.previewValue
+            } else {
+              failed = true
+            }
+
+            return {
+              ...item,
+              value,
+              failed
+            }
           })
         }
 
         return {
           ...section,
-          items
+          items,
+          fails
         }
       })
     })
