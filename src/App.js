@@ -197,9 +197,9 @@ export default class App extends React.Component {
 
   render () {
     const parentSections = Object.values(this.state).map(parentSection => {
-      let { id, sections, title } = parentSection
+      let { id, sections, title, buttons } = parentSection
       return (
-        <ParentSection key={id} sections={sections} id={id} title={title} />
+        <ParentSection key={id} sections={sections} buttons={buttons} id={id} title={title} />
       )
     })
 

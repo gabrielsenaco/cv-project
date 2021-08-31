@@ -1,6 +1,6 @@
 import React from 'react'
-//import uniqid from 'uniqid'
 import Section from './Section'
+import Button from './Button'
 
 export default class ParentSection extends React.Component {
   getSectionComponent (section) {
@@ -20,14 +20,33 @@ export default class ParentSection extends React.Component {
 
   render () {
     let sections = this.props.sections || []
-
+    let buttons = this.props.buttons || []
+    
     sections = sections.map(section => {
       return this.getSectionComponent(section)
     })
 
-    return <article key={this.props.id}>
-    <h3>{this.props.title}</h3>
-    {sections}
-    </article>
+    buttons = buttons.map(button => {
+      return (
+        <Button
+          key={button.id}
+          type={button.type}
+          text={button.text}
+          icon={button.icon}
+          id={button.id}
+          bgColor={button.bgColor}
+          color={button.color}
+          clickHandler={button.clickHandler}
+        />
+      )
+    })
+
+    return (
+      <article key={this.props.id}>
+        <h3>{this.props.title}</h3>
+        {sections}
+        {buttons}
+      </article>
+    )
   }
 }
