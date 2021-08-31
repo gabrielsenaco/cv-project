@@ -11,7 +11,7 @@ export default class SectionItem extends React.Component {
 
     return (
       <div key={id}>
-        <h3>{title}</h3>
+        <h5>{title}</h5>
         <p>{value}</p>
       </div>
     )
