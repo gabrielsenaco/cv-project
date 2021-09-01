@@ -3,6 +3,7 @@ import InputLabel from './InputLabel'
 import SectionItem from './SectionItem'
 import Button from './Button'
 import FailSection from './FailSection'
+import './../styles/Section.css'
 
 export default class Section extends React.Component {
   getItemInputComponent (item, failed) {
@@ -22,10 +23,14 @@ export default class Section extends React.Component {
   }
 
   getItemViewComponent (item) {
+    let value = item.value
+    if (item.type === 'date') {
+      value = item.value.replaceAll('-', '/')
+    }
     return (
       <SectionItem
         title={item.title}
-        value={item.value}
+        value={value}
         id={item.id}
         key={item.id}
       />
@@ -65,7 +70,10 @@ export default class Section extends React.Component {
     let { items, buttons, fails } = this.props
 
     items = items.map(item => {
-      let failed = fails.some(fail => fail.id === item.id)
+      let failed
+      if (item.failed !== null) {
+        failed = fails.some(fail => fail.id === item.id)
+      }
       if (editor) return this.getItemInputComponent(item, failed)
       return this.getItemViewComponent(item)
     })
@@ -78,10 +86,10 @@ export default class Section extends React.Component {
 
     if (editor) {
       return (
-        <section key={id}>
+        <section key={id} className='section'>
           {title && <h4>{title}</h4>}
-          <form onSubmit={submitHandler} noValidate>
-            {items}
+          <form onSubmit={submitHandler} className='section-editor' noValidate>
+            <div className='section-items'>{items}</div>
             {fails}
             {buttons}
           </form>
@@ -89,9 +97,9 @@ export default class Section extends React.Component {
       )
     }
     return (
-      <section key={id}>
+      <section key={id} className='section'>
         {title && <h4>{title}</h4>}
-        {items}
+        <div className='section-items'>{items}</div>
         {buttons}
       </section>
     )
