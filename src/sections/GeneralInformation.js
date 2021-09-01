@@ -12,8 +12,7 @@ import {
 
 import {
   createSaveButton,
-  createEditButton,
-  createCloseEditorButton
+  createEditButton
 } from './../objects/SectionButtonObjects'
 
 import {
@@ -68,12 +67,7 @@ export default class GeneralInformation {
   getButtonsArray (sectionID, parentSectionID) {
     return [
       createSaveButton(sectionID, parentSectionID),
-      createEditButton(sectionID, parentSectionID, this.toggleEditorHandler),
-      createCloseEditorButton(
-        sectionID,
-        parentSectionID,
-        this.toggleEditorHandler
-      )
+      createEditButton(sectionID, parentSectionID, this.toggleEditorHandler)
     ]
   }
 
