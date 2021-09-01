@@ -10,7 +10,7 @@ export default class SectionItem extends React.Component {
     }
 
     return (
-      <div key={id}>
+      <div key={id} className='section-item view'>
         <h5>{title}</h5>
         <p>{value}</p>
       </div>
