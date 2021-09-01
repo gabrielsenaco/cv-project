@@ -1,6 +1,7 @@
 import React from 'react'
 import Section from './Section'
 import Button from './Button'
+import './../styles/ParentSection.css'
 
 export default class ParentSection extends React.Component {
   getSectionComponent (section) {
@@ -42,7 +43,10 @@ export default class ParentSection extends React.Component {
     })
 
     return (
-      <article key={this.props.id}>
+      <article
+        className={'parent-section '.concat(this.props.className || '')}
+        key={this.props.id}
+      >
         <h3>{this.props.title}</h3>
         {sections}
         {buttons}
