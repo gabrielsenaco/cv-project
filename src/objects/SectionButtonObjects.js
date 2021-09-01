@@ -1,4 +1,11 @@
-import { IconCheck, IconEdit, IconX, IconTrash, IconPlus } from '@tabler/icons'
+import {
+  IconCheck,
+  IconEdit,
+  IconX,
+  IconTrash,
+  IconPlus,
+  IconDeviceFloppy
+} from '@tabler/icons'
 import { createButtonObject } from './ObjectBuilder'
 
 const createSaveButton = (sectionID, parentSectionID) => {
@@ -88,7 +95,26 @@ const createExpandParentSectionButton = (
   )
 }
 
+const createSaveAsPDFParentSectionButton = (
+  sectionID,
+  parentSectionID,
+  saveAsPDFParentSectionHandler
+) => {
+  return createButtonObject(
+    'Save as PDF',
+    null,
+    IconDeviceFloppy,
+    'black',
+    'success',
+    false,
+    false,
+    saveAsPDFParentSectionHandler,
+    sectionID,
+    parentSectionID
+  )
+}
 export {
+  createSaveAsPDFParentSectionButton,
   createSaveButton,
   createEditButton,
   createCloseEditorButton,
