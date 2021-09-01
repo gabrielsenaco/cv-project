@@ -48,6 +48,7 @@ export default class GeneralInformation {
       this.getValidators(),
       null,
       [],
+      null,
       this.parentSectionID
     )
   }
