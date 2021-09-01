@@ -111,6 +111,7 @@ const createParentSectionObject = (
   validators,
   sectionModel,
   buttons,
+  className,
   id = uniqid()
 ) => {
   return {
@@ -119,7 +120,8 @@ const createParentSectionObject = (
     sectionModel,
     validators,
     buttons,
-    id
+    id,
+    className
   }
 }
 
