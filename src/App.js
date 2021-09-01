@@ -145,59 +145,16 @@ export default class App extends React.Component {
         }
       })
     })
+
+    this.checkInputTypoBySection(sectionID, parentSectionID, id)
   }
 
   submitHandler = async (_, sectionID, parentSectionID, event) => {
     event.preventDefault()
-    let someFails = false
-    await this.updateData(parentSectionID, parentSection => {
-      return parentSection.sections.map(section => {
-        let items = section.items
-        let fails = section.fails
-        if (section.id === sectionID) {
-          fails = []
-
-          let passList = items.map(item => {
-            let pass = true
-            let validation = this.getItemValidationData(item, parentSection)
-
-            if (!validation.valid) {
-              someFails = true
-              fails.push(validation)
-              pass = false
-            }
-
-            return { id: item.id, pass }
-          })
-
-          items = items.map(item => {
-            let pass = passList.some(
-              itemPass => itemPass.pass && itemPass.id === item.id
-            )
-            let value = item.value
-            let failed = item.failed
-
-            if (pass && !someFails) {
-              value = item.previewValue
-            } else {
-              failed = true
-            }
-
-            return {
-              ...item,
-              value,
-              failed
-            }
-          })
-        }
-
-        return {
-          ...section,
-          items,
-          fails
-        }
-      })
-    })
+    const { someFails } = await this.checkInputTypoBySection(
+      sectionID,
+      parentSectionID
+    )
 
     if (!someFails) {
       this.toggleEditorHandler(null, sectionID, parentSectionID, null)
@@ -241,6 +198,76 @@ export default class App extends React.Component {
         ['' + parentSectionKey + '']: parentSection
       }
     })
+  }
+
+  getInputPassList (items, parentSection) {
+    let someFails = false
+    let fails = []
+    const passList = items.map(item => {
+      let pass = true
+      let validation = this.getItemValidationData(item, parentSection)
+
+      if (!validation.valid) {
+        someFails = true
+        fails.push(validation)
+        pass = false
+      }
+
+      return { id: item.id, pass }
+    })
+    return { someFails, fails, passList }
+  }
+
+  rewriteItemsByPassList (items, passList, someFails, id) {
+    return items.map(item => {
+      if (id != null && item.id !== id) return item
+
+      let pass = passList.some(
+        itemPass => itemPass.pass && itemPass.id === item.id
+      )
+      let value = item.value
+      let failed = item.failed
+
+      if (pass && !someFails) {
+        value = item.previewValue
+      } else {
+        failed = true
+      }
+
+      return {
+        ...item,
+        value,
+        failed
+      }
+    })
+  }
+  
+  async checkInputTypoBySection (sectionID, parentSectionID, id) {
+    let someFails = false
+    await this.updateData(parentSectionID, parentSection => {
+      return parentSection.sections.map(section => {
+        let items = section.items
+        let fails = section.fails
+        if (section.id === sectionID) {
+          fails = []
+
+          let passData = this.getInputPassList(items, parentSection)
+          fails = passData.fails
+          const passList = passData.passList
+          someFails = passData.someFails
+
+          items = this.rewriteItemsByPassList(items, passList, someFails, id)
+        }
+
+        return {
+          ...section,
+          items,
+          fails
+        }
+      })
+    })
+
+    return { someFails }
   }
 
   render () {
