@@ -29,7 +29,7 @@ const createItemObject = (
     icon,
     previewValue: '',
     value: '',
-    failed: false,
+    failed: null,
     id,
     defaultChangeHandler
   }
