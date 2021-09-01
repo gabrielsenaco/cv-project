@@ -1,0 +1,29 @@
+@import './SectionItem.css';
+@import './InputLabel.css';
+
+.section {
+  width: 95% !important;
+  margin: 0.3rem auto;
+  padding: 2%;
+}
+
+.section h4 {
+  margin-bottom: 0.5rem;
+}
+
+.section-items {
+  margin: 1rem 0;
+  margin-top: 0;
+}
+
+.section-item {
+  margin: 0.5rem 0;
+}
+
+.section-item [failed='true'] {
+  border-color: var(--danger-color);
+}
+
+.section-item [failed='false'] {
+  border-color: var(--success-color);
+}

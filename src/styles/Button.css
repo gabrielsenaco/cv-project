@@ -1,0 +1,47 @@
+.button {
+  background: none;
+  border: none;
+  outline: none;
+  border-bottom: 0.3rem solid var(--info-color);
+  padding: 0 0.8rem;
+  padding-right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease-out 0s;
+  box-shadow: 0 0.3125rem 0.625rem -0.5rem #000000;
+  margin: 0.5rem 0.3rem;
+  color: var(--black-color);
+}
+
+.button:hover {
+  color: var(--white-color);
+}
+
+.button .icon {
+  margin-right: 0.3rem;
+}
+
+.button.bg-success {
+  border-bottom: 0.3rem solid var(--success-color);
+}
+
+.button.bg-danger {
+  border-bottom: 0.3rem solid var(--danger-color);
+}
+
+.button.bg-info {
+  border-bottom: 0.3rem solid var(--info-color);
+}
+
+.button.bg-success:hover {
+  background-color: var(--success-color);
+}
+
+.button.bg-danger:hover {
+  background-color: var(--danger-color);
+}
+
+.button.bg-info:hover {
+  background-color: var(--info-color);
+}

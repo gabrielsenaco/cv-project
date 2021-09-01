@@ -1,0 +1,24 @@
+header {
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 10%;
+}
+
+header > * {
+  color: var(--white-color);
+}
+
+header p {
+  font-family: var(--secondary-font);
+}
+
+header h1 {
+  color: var(--white-color);
+}
+
+header .logo {
+  width: 6rem;
+  height: auto;
+}

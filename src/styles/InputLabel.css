@@ -1,0 +1,40 @@
+.section-item label {
+  display: block;
+  font-family: var(--primary-font);
+  font-size: 1.1rem;
+  color: var(--black-color);
+}
+
+.section-item .icon {
+  color: var(--black-color);
+  width: 2rem;
+  height: auto;
+}
+
+.section-item-input-container {
+  border: var(--card-border);
+  display: flex;
+  width: 100%;
+  padding: 0.3rem;
+}
+
+.section-item-input-container input,
+.section-item-input-container textarea {
+  width: 100%;
+  max-width: 90%;
+  min-width: 90%;
+  border: none;
+  outline: none;
+  font-size: 1.2rem;
+  color: var(--black-color);
+}
+
+.section-item-input-container textarea {
+  min-width: 95%;
+}
+
+@media (max-width: 767px) {
+  .section-item-input-container {
+    width: 100%;
+  }
+}

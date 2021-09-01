@@ -1,0 +1,8 @@
+.fail-section {
+  color: var(--danger-color);
+  margin-bottom: 0.5rem;
+}
+
+.fail-item {
+  margin-left: 0.3rem;
+}

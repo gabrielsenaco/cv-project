@@ -1,0 +1,10 @@
+.section-item.view h1 {
+  font-size: 1.3rem;
+}
+
+.section-item.view p {
+  font-size: 1.7rem;
+  font-family: var(--primary-font);
+  color: var(--black-color);
+  margin-left: 0.5rem;
+}
