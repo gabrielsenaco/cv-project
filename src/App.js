@@ -85,11 +85,9 @@ export default class App extends React.Component {
     Object.values(this.state).forEach(parent => {
       this.updateData(parent.id, parentSection => {
         return parentSection.sections.map(section => {
-          let editor = false
-
           return {
             ...section,
-            editor
+            editor: false
           }
         })
       })
