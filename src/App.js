@@ -3,6 +3,11 @@ import ParentSection from './components/ParentSection'
 import GeneralInformation from './sections/GeneralInformation'
 import EducationalExperience from './sections/EducationalExperience'
 import PracticalExperience from './sections/PracticalExperience'
+import DownloadCV from './sections/DownloadCV'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import './styles/App.css'
+
 import {
   createValidatorItemObject,
   createSectionObjectBySectionModel
@@ -31,7 +36,8 @@ export default class App extends React.Component {
         this.submitHandler,
         this.expandParentSectionHandler,
         this.deleteSectionHandler
-      ).getData()
+      ).getData(),
+      downloadCV: new DownloadCV(this.saveAsPDFClickHandler).getData()
     }
   }
 
@@ -61,6 +67,35 @@ export default class App extends React.Component {
       }
     }
     return { parentSection, parentSectionKey }
+  }
+
+  getItemValidationData (item, parentSection) {
+    let validator = this.isValidItem(
+      item.id,
+      item.previewValue,
+      item.title,
+      item.type,
+      parentSection
+    )
+
+    return validator
+  }
+
+  saveAsPDFClickHandler = () => {
+    Object.values(this.state).forEach(parent => {
+      this.updateData(parent.id, parentSection => {
+        return parentSection.sections.map(section => {
+          let editor = false
+
+          return {
+            ...section,
+            editor
+          }
+        })
+      })
+    })
+
+    window.print()
   }
 
   toggleEditorHandler = (_, sectionID, parentSectionID, event) => {
@@ -94,6 +129,7 @@ export default class App extends React.Component {
         if (section.id === sectionID) {
           items = items.map(item => {
             let previewValue = item.previewValue
+
             if (item.id === id) {
               previewValue = value
             }
@@ -125,18 +161,11 @@ export default class App extends React.Component {
 
           let passList = items.map(item => {
             let pass = true
+            let validation = this.getItemValidationData(item, parentSection)
 
-            let validator = this.isValidItem(
-              item.id,
-              item.previewValue,
-              item.title,
-              item.type,
-              parentSection
-            )
-
-            if (!validator.valid) {
-              fails.push(validator)
+            if (!validation.valid) {
               someFails = true
+              fails.push(validation)
               pass = false
             }
 
@@ -218,9 +247,10 @@ export default class App extends React.Component {
 
   render () {
     const parentSections = Object.values(this.state).map(parentSection => {
-      let { id, sections, title, buttons } = parentSection
+      let { id, sections, title, buttons, className } = parentSection
       return (
         <ParentSection
+          className={className}
           key={id}
           sections={sections}
           buttons={buttons}
@@ -230,6 +260,12 @@ export default class App extends React.Component {
       )
     })
 
-    return <main>{parentSections}</main>
+    return (
+      <main>
+        <Header />
+        {parentSections}
+        <Footer />
+      </main>
+    )
   }
 }
