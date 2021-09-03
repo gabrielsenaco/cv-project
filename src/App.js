@@ -6,7 +6,6 @@ import PracticalExperience from './sections/PracticalExperience'
 import DownloadCV from './sections/DownloadCV'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import './styles/App.css'
 
 import {
   createValidatorItemObject,
