@@ -1,8 +1,0 @@
-@media print {
-  .button,
-  footer,
-  header,
-  .download-cv {
-    display: none;
-  }
-}
