@@ -12,6 +12,7 @@ import {
   createValidatorItemObject,
   createSectionObjectBySectionModel
 } from './objects/ObjectBuilder'
+import PDFCurriculum from './objects/PDFGenerator'
 
 export default class App extends React.Component {
   constructor (props) {
@@ -93,7 +94,7 @@ export default class App extends React.Component {
       })
     })
 
-    window.print()
+    PDFCurriculum(this.state)
   }
 
   toggleEditorHandler = (_, sectionID, parentSectionID, event) => {
@@ -241,7 +242,7 @@ export default class App extends React.Component {
       }
     })
   }
-  
+
   async checkInputTypoBySection (sectionID, parentSectionID, id) {
     let someFails = false
     await this.updateData(parentSectionID, parentSection => {
