@@ -39,7 +39,7 @@ const styles = {
 }
 
 const PDFCurriculum = stateObject => {
-  const parentSections = Object.values(stateObject).filter(
+  const parentSections = stateObject.filter(
     parentSection => !ignoredParentSections.includes(parentSection.title)
   )
 
