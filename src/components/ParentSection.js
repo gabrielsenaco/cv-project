@@ -1,10 +1,9 @@
-import React from 'react'
 import Section from './Section'
-import Button from './Button'
+import { getButtonComponent } from './Button'
 import './../styles/ParentSection.css'
 
-export default class ParentSection extends React.Component {
-  getSectionComponent (section) {
+const ParentSection = props => {
+  const getSectionComponent = section => {
     return (
       <Section
         key={section.id}
@@ -19,38 +18,27 @@ export default class ParentSection extends React.Component {
     )
   }
 
-  render () {
-    let sections = this.props.sections || []
-    let buttons = this.props.buttons || []
+  let sections = props.sections || []
+  let buttons = props.buttons || []
 
-    sections = sections.map(section => {
-      return this.getSectionComponent(section)
-    })
+  sections = sections.map(section => {
+    return getSectionComponent(section)
+  })
 
-    buttons = buttons.map(button => {
-      return (
-        <Button
-          key={button.id}
-          type={button.type}
-          text={button.text}
-          icon={button.icon}
-          id={button.id}
-          bgColor={button.bgColor}
-          color={button.color}
-          clickHandler={button.clickHandler}
-        />
-      )
-    })
+  buttons = buttons.map(button => {
+    return getButtonComponent(button)
+  })
 
-    return (
-      <article
-        className={'parent-section '.concat(this.props.className || '')}
-        key={this.props.id}
-      >
-        <h3>{this.props.title}</h3>
-        {sections}
-        {buttons}
-      </article>
-    )
-  }
+  return (
+    <article
+      className={'parent-section '.concat(props.className || '')}
+      key={props.id}
+    >
+      <h3>{props.title}</h3>
+      {sections}
+      {buttons}
+    </article>
+  )
 }
+
+export default ParentSection
