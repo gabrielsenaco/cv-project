@@ -200,6 +200,16 @@ const createValidatorItemObject = (valid, text = '') => {
   }
 }
 
+function savePreviewValuesItems (items) {
+  return items.map(item => {
+    let value = item.previewValue
+    return {
+      ...item,
+      value
+    }
+  })
+}
+
 export {
   createItemObject,
   createButtonObject,
@@ -208,5 +218,6 @@ export {
   createFailObject,
   createValidatorObject,
   createValidatorItemObject,
-  createSectionObjectBySectionModel
+  createSectionObjectBySectionModel,
+  savePreviewValuesItems
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import ParentSection from './components/ParentSection'
 import GeneralInformation from './sections/GeneralInformation'
 import EducationalExperience from './sections/EducationalExperience'
@@ -8,256 +8,189 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 
 import {
-  createValidatorItemObject,
-  createSectionObjectBySectionModel
+  createSectionObjectBySectionModel,
+  savePreviewValuesItems
 } from './objects/ObjectBuilder'
+import {
+  isItemFailed,
+  getItemsWithValidations
+} from './objects/ValidatorManipulation'
 import PDFCurriculum from './objects/PDFGenerator'
 
-export default class App extends React.Component {
-  constructor (props) {
-    super(props)
+function useStateRef (initialValue) {
+  const [value, setValue] = useState(initialValue)
 
-    this.state = {
-      generalInformation: new GeneralInformation(
-        this.changeInputHandler,
-        this.toggleEditorHandler,
-        this.submitHandler
-      ).getData(),
-      educationalExperience: new EducationalExperience(
-        this.changeInputHandler,
-        this.toggleEditorHandler,
-        this.submitHandler,
-        this.expandParentSectionHandler,
-        this.deleteSectionHandler
-      ).getData(),
-      practicalExperience: new PracticalExperience(
-        this.changeInputHandler,
-        this.toggleEditorHandler,
-        this.submitHandler,
-        this.expandParentSectionHandler,
-        this.deleteSectionHandler
-      ).getData(),
-      downloadCV: new DownloadCV(this.saveAsPDFClickHandler).getData()
-    }
-  }
+  const ref = useRef(value)
 
-  isValidItem = (id, value, title, type, parentSection) => {
-    const validator = parentSection.validators.filter(
-      validator =>
-        validator.title.toLowerCase() === title.toLowerCase() &&
-        validator.type.toLowerCase() === type.toLowerCase()
-    )[0]
-    let validatorObject = validator
-      ? validator.validate(value)
-      : createValidatorItemObject(true)
-    validatorObject.id = id
-    return validatorObject
-  }
+  useEffect(() => {
+    ref.current = value
+  }, [value])
 
-  getParentSectionObject (topLevelObject, targetID) {
-    let parentsKeys = Object.keys(topLevelObject)
-    let parentSection = {}
-    let parentSectionKey
+  return [value, setValue, ref]
+}
 
-    for (const key of parentsKeys) {
-      let parent = topLevelObject[key]
-      if (parent.id === targetID) {
-        parentSection = parent
-        parentSectionKey = key
-      }
-    }
-    return { parentSection, parentSectionKey }
-  }
+const App = () => {
+  let [parentSections, setParentSections, parentSectionsRef] = useStateRef([
+    new GeneralInformation(
+      changeInputHandler,
+      toggleEditorHandler,
+      submitHandler
+    ).getData(),
+    new EducationalExperience(
+      changeInputHandler,
+      toggleEditorHandler,
+      submitHandler,
+      expandParentSectionHandler,
+      deleteSectionHandler
+    ).getData(),
+    new PracticalExperience(
+      changeInputHandler,
+      toggleEditorHandler,
+      submitHandler,
+      expandParentSectionHandler,
+      deleteSectionHandler
+    ).getData(),
+    new DownloadCV(saveAsPDFClickHandler).getData()
+  ])
 
-  getItemValidationData (item, parentSection) {
-    let validator = this.isValidItem(
-      item.id,
-      item.previewValue,
-      item.title,
-      item.type,
-      parentSection
-    )
-
-    return validator
-  }
-
-  saveAsPDFClickHandler = () => {
-    Object.values(this.state).forEach(parent => {
-      this.updateData(parent.id, parentSection => {
-        return parentSection.sections.map(section => {
-          return {
-            ...section,
-            editor: false
-          }
-        })
-      })
-    })
-
-    PDFCurriculum(this.state)
-  }
-
-  toggleEditorHandler = (_, sectionID, parentSectionID, event) => {
-    this.updateData(parentSectionID, parentSection => {
-      return parentSection.sections.map(section => {
-        let editor = section.editor
-        if (section.id === sectionID) {
-          editor = !editor
+  function updateSections (parentSectionID, sectionsCallback) {
+    setParentSections(parentSections =>
+      parentSections.map(parentSection => {
+        let sections = parentSection.sections
+        if (parentSection.id === parentSectionID) {
+          sections = sectionsCallback(sections, parentSection)
         }
-
-        const items = section.items.map(item => {
-          item.previewValue = item.value
-          return item
-        })
 
         return {
-          ...section,
-          items,
-          editor
+          ...parentSection,
+          sections
         }
       })
-    })
+    )
   }
 
-  changeInputHandler = (id, sectionID, parentSectionID, event) => {
-    const value = event.target.value
-
-    this.updateData(parentSectionID, parentSection => {
-      return parentSection.sections.map(section => {
+  function updateItems (parentSectionID, sectionID, itemsCallback) {
+    updateSections(parentSectionID, (sections, parentSection) => {
+      return sections.map(section => {
         let items = section.items
         if (section.id === sectionID) {
-          items = items.map(item => {
-            let previewValue = item.previewValue
-
-            if (item.id === id) {
-              previewValue = value
-            }
-
-            return {
-              ...item,
-              previewValue
-            }
-          })
+          items = itemsCallback(items, section, parentSection)
         }
-
         return {
           ...section,
           items
         }
       })
     })
-
-    this.checkInputTypoBySection(sectionID, parentSectionID, id)
   }
 
-  submitHandler = async (_, sectionID, parentSectionID, event) => {
-    event.preventDefault()
-    const { someFails } = await this.checkInputTypoBySection(
-      sectionID,
-      parentSectionID
-    )
-
-    if (!someFails) {
-      this.toggleEditorHandler(null, sectionID, parentSectionID, null)
-    }
-  }
-
-  expandParentSectionHandler = (_, __, parentSectionID, event) => {
-    this.updateData(parentSectionID, parentSection => {
-      const { sectionModel } = parentSection
-      const newSection = createSectionObjectBySectionModel(
-        sectionModel,
-        parentSectionID
-      )
-      return parentSection.sections.concat(newSection)
-    })
-  }
-
-  deleteSectionHandler = (_, sectionID, parentSectionID, event) => {
-    this.updateData(parentSectionID, parentSection => {
-      return parentSection.sections.filter(section => section.id !== sectionID)
-    })
-  }
-
-  async updateData (parentSectionID, callback) {
-    await this.setState(prevState => {
-      let { parentSection, parentSectionKey } = this.getParentSectionObject(
-        prevState,
-        parentSectionID
-      )
-
-      if (!parentSection) return {}
-
-      const sections = callback(parentSection)
-
-      parentSection = {
-        ...parentSection,
-        sections
-      }
-
-      return {
-        ['' + parentSectionKey + '']: parentSection
-      }
-    })
-  }
-
-  getInputPassList (items, parentSection) {
-    let someFails = false
-    let fails = []
-    const passList = items.map(item => {
-      let pass = true
-      let validation = this.getItemValidationData(item, parentSection)
-
-      if (!validation.valid) {
-        someFails = true
-        fails.push(validation)
-        pass = false
-      }
-
-      return { id: item.id, pass }
-    })
-    return { someFails, fails, passList }
-  }
-
-  rewriteItemsByPassList (items, passList, someFails, id) {
-    return items.map(item => {
-      if (id != null && item.id !== id) return item
-
-      let pass = passList.some(
-        itemPass => itemPass.pass && itemPass.id === item.id
-      )
-      let value = item.value
-      let failed = item.failed
-
-      if (pass && !someFails) {
-        value = item.previewValue
-      } else {
-        failed = true
-      }
-
-      return {
-        ...item,
-        value,
-        failed
-      }
-    })
-  }
-
-  async checkInputTypoBySection (sectionID, parentSectionID, id) {
-    let someFails = false
-    await this.updateData(parentSectionID, parentSection => {
-      return parentSection.sections.map(section => {
-        let items = section.items
-        let fails = section.fails
+  function updateSectionEditor (parentSectionID, sectionID, editorCallback) {
+    updateSections(parentSectionID, sections => {
+      return sections.map(section => {
+        let editor = section.editor
         if (section.id === sectionID) {
-          fails = []
-
-          let passData = this.getInputPassList(items, parentSection)
-          fails = passData.fails
-          const passList = passData.passList
-          someFails = passData.someFails
-
-          items = this.rewriteItemsByPassList(items, passList, someFails, id)
+          editor = editorCallback(editor)
         }
+        return {
+          ...section,
+          editor
+        }
+      })
+    })
+  }
+
+  function closeAllSectionsEditor () {
+    setParentSections(parentSections => {
+      parentSections = parentSections.map(parentSection => {
+        let sections = parentSection.sections.map(section => {
+          return {
+            ...section,
+            editor: false
+          }
+        })
+
+        return {
+          ...parentSection,
+          sections
+        }
+      })
+      return parentSections
+    })
+  }
+
+  async function saveAsPDFClickHandler () {
+    closeAllSectionsEditor()
+    PDFCurriculum(parentSectionsRef.current)
+  }
+
+  function deleteSectionHandler (_, sectionID, parentSectionID, event) {
+    updateSections(parentSectionID, (sections, parentSection) => {
+      return sections.filter(section => section.id !== sectionID)
+    })
+  }
+
+  function expandParentSectionHandler (_, __, parentSectionID, event) {
+    updateSections(parentSectionID, (sections, parentSection) => {
+      const newSection = createSectionObjectBySectionModel(
+        parentSection.sectionModel,
+        parentSectionID
+      )
+      return sections.concat(newSection)
+    })
+  }
+
+  function changeInputHandler (id, sectionID, parentSectionID, event) {
+    const value = event.target.value
+    updateItems(parentSectionID, sectionID, (items, section, parentSection) => {
+      return items.map(item => {
+        let previewValue = item.previewValue
+        let failed = item.failed
+        if (item.id === id) {
+          previewValue = value
+          failed = isItemFailed(item, previewValue, parentSection.validators)
+        }
+        return {
+          ...item,
+          previewValue,
+          failed
+        }
+      })
+    })
+  }
+
+  function toggleEditorHandler (_, sectionID, parentSectionID, event) {
+    updateSectionEditor(parentSectionID, sectionID, currentEditorState => {
+      return !currentEditorState
+    })
+
+    updateItems(parentSectionID, sectionID, (items, _, parentSection) => {
+      return items.map(item => {
+        return {
+          ...item,
+          previewValue: item.value,
+          failed: isItemFailed(item, item.value, parentSection.validators)
+        }
+      })
+    })
+  }
+
+  async function submitHandler (_, sectionID, parentSectionID, event) {
+    event.preventDefault()
+    let someFails = false
+    await updateSections(parentSectionID, (sections, parentSection) => {
+      let updatedSections = sections.map(section => {
+        if (section.id !== sectionID) {
+          return section
+        }
+
+        let items = section.items
+
+        let [items2, fails] = getItemsWithValidations(
+          items,
+          parentSection.validators
+        )
+        items = items2
+        someFails = fails.length > 0
 
         return {
           ...section,
@@ -265,13 +198,36 @@ export default class App extends React.Component {
           fails
         }
       })
+
+      if (someFails) {
+        return updatedSections
+      }
+
+      updatedSections = updatedSections.map(section => {
+        if (section.id !== sectionID) {
+          return section
+        }
+
+        let items = section.items
+
+        items = savePreviewValuesItems(items)
+
+        return {
+          ...section,
+          items
+        }
+      })
+
+      return updatedSections
     })
 
-    return { someFails }
+    if (!someFails) {
+      toggleEditorHandler(null, sectionID, parentSectionID, null)
+    }
   }
 
-  render () {
-    const parentSections = Object.values(this.state).map(parentSection => {
+  const parentSectionsComponents = Object.values(parentSections).map(
+    parentSection => {
       let { id, sections, title, buttons, className } = parentSection
       return (
         <ParentSection
@@ -283,14 +239,16 @@ export default class App extends React.Component {
           title={title}
         />
       )
-    })
+    }
+  )
 
-    return (
-      <main>
-        <Header />
-        {parentSections}
-        <Footer />
-      </main>
-    )
-  }
+  return (
+    <main>
+      <Header />
+      {parentSectionsComponents}
+      <Footer />
+    </main>
+  )
 }
+
+export default App
